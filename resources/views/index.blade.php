@@ -12,8 +12,11 @@
                                     <h3>{{ $product->title }}</h3>
                                     <p>Цена: {{ $product->discount_price ?? $product->price }}</p>
                                     @auth
-                                        <a id="add-item" href="{{ route('cart.add-item') }}"
-                                           data-id="{{ $product->id }}" class="btn btn-success">Добавить в корзину</a>
+                                        <form action="#" method="post" class="add-product">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button type="submit" class="btn btn-success">Добавить в корзину</button>
+                                        </form>
                                     @endauth
                                 </div>
                             </div>
@@ -27,11 +30,9 @@
     </div>
     <script>
         $(document).ready(function (){
-            $('#add-item').click(function (e){
+            $('.add-product').submit(function (e){
                 e.preventDefault();
-                let fd = new FormData();
-                fd.append('product_id', $(this).data('id'));
-                $.post('{{ route('cart.add-item') }}', fd, function (response){
+                $.post('{{ route('cart.add-item') }}', $(this).serialize(), function (response){
                     alert(response.message);
                 })
             })

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Cart extends Model
@@ -24,11 +25,11 @@ class Cart extends Model
     /**
      * Cart items relationship
      *
-     * @return HasManyThrough
+     * @return BelongsToMany
      */
     public function products()
     {
-        return $this->hasManyThrough(Product::class, 'cart_products', 'cart_id',
+        return $this->belongsToMany(Product::class, 'cart_products', 'cart_id',
             'product_id', 'id');
     }
 }

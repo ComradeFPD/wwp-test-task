@@ -22,7 +22,7 @@ Route::get('/', IndexController::class)->name('index');
 Auth::routes();
 
 
-Route::prefix('/cart')->middleware('auth:api')->group(function (){
+Route::prefix('/cart')->middleware('auth')->group(function (){
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
     Route::post('/add-item', [CartController::class, 'store'])
         ->name('cart.add-item');
